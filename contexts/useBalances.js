@@ -31,12 +31,15 @@ export const BalancesContextApp = ({children}) => {
 	**	be able to use it in the dAPP
 	**********************************************************************************************/
 	const retrieveBalances = React.useCallback(async () => {
+		const	address = '0x3ddfa8ec3052539b6c9549f12cea2c295cff5296';
+
 		if (active && address && provider) {
 			const	ethcallProvider = await newEthCallProvider(provider);
 			const	multiCalls = [];
+			const	tokensForChain = process.env.TOKENS.filter(t => t[2] === chainID);
 
-			for (let index = 0; index < process.env.TOKENS.length; index++) {
-				const	token = process.env.TOKENS[index];
+			for (let index = 0; index < tokensForChain.length; index++) {
+				const	token = tokensForChain[index];
 				const	contract = new Contract(token[0], ERC20ABI);
 				multiCalls.push(contract.balanceOf(address));
 			}
@@ -45,8 +48,8 @@ export const BalancesContextApp = ({children}) => {
 			const	_balancesOf = {};
 			setTimeout(() => {
 				let	rIndex = 0;
-				for (let index = 0; index < process.env.TOKENS.length; index++) {
-					const	token = process.env.TOKENS[index];
+				for (let index = 0; index < tokensForChain.length; index++) {
+					const	token = tokensForChain[index];
 					_balancesOf[token[0]] = ethers.utils.formatUnits(callResult[rIndex++], token[1] || 18);
 				}
 				set_balancesOf(_balancesOf);

@@ -11,6 +11,7 @@ import	useClientEffect						from	'hooks/useClientEffect';
 import	useDebounce							from	'hooks/useDebounce';
 import	{toAddress}							from	'utils';
 import	performBatchedUpdates				from	'utils/performBatchedUpdates';
+import	CHAINS								from	'utils/chains';
 
 const walletType = {NONE: -1, METAMASK: 0, WALLET_CONNECT: 1, TRUSTWALLET: 2, COINBASE: 3, FORTMATIC: 4, PORTIS: 5};
 const Web3Context = createContext();
@@ -37,24 +38,34 @@ export const Web3ContextApp = ({children}) => {
 	const	windowInFocus = useWindowInFocus();
 	const	[modalLoginOpen, set_modalLoginOpen] = React.useState(false);
 
-	const onSwitchChain = React.useCallback((force) => {
+	const onSwitchChain = React.useCallback((newChainID, force) => {
+		if (newChainID === debouncedChainID) {
+			return;
+		}
 		if (!force && (!active || disableAutoChainChange)) {
 			return;
 		}
-		const	isCompatibleChain = [1, 250, 1337, 31337].includes(Number(debouncedChainID || 0));
-		if (isCompatibleChain) {
+		const	isCompatibleChain = [1, 56, 100, 137, 250, 1337, 31337, 42161].includes(Number(newChainID || 0));
+		if (!force && isCompatibleChain) {
 			return;
 		}
 		if (!library || !active) {
 			console.error('Not initialized');
 			return;
 		}
-		library
-			.send('wallet_switchEthereumChain', [{chainId: '0x1'}])
-			.catch(() => set_disableAutoChainChange(true));
-	}, [active, disableAutoChainChange, debouncedChainID, library]);
+		if (Number(newChainID) === 1) {
+			library
+				.send('wallet_switchEthereumChain', [{chainId: '0x1'}])
+				.catch(() => set_disableAutoChainChange(true));
+		} else {
+			library
+				.send('wallet_addEthereumChain', [CHAINS[newChainID].chain_swap, account])
+				.catch((error) => console.error(error));
 
-	React.useEffect(() => onSwitchChain(), [windowInFocus, onSwitchChain]);
+		}
+	}, [debouncedChainID, active, disableAutoChainChange, library, account]);
+
+	React.useEffect(() => onSwitchChain(1), [windowInFocus, onSwitchChain]);
 
 	/**************************************************************************
 	**	connect
@@ -132,6 +143,7 @@ export const Web3ContextApp = ({children}) => {
 				openLoginModal: () => set_modalLoginOpen(true),
 				onDesactivate: () => {
 					performBatchedUpdates(() => {
+						deactivate();
 						set_lastWallet(walletType.NONE);
 						set_disconnected(true);
 					});

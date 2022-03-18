@@ -1,141 +1,110 @@
-import	React		from	'react';
-import	Browser		from	'components/Browser';
-import	{Card}		from	'@yearn/yearn-web-lib';
+import	React			from	'react';
+import	Image			from	'next/image';
+import	Icon			from	'components/icons/IconLinkOut';
+import	useYVempire		from	'contexts/useYVempire';
+import	useBalances		from	'contexts/useBalances';
+import	{formatAmount}	from	'utils';
+import	Card			from	'lib/Card';
 
-function	ColorBox({color, hex, name}) {
+function	MigrateBox({title, tokenAddress, tokenImage, yearnAPY, otherAPY, balance, symbol, description, buttonLabel}) {
 	return (
-		<div className={'flex flex-col col-span-1'}>
-			<div className={`overflow-hidden relative my-1 w-30 h-24 border border-gray-blue-3 ${color}`} />
-			<p className={'mt-1 text-sm text-gray-blue-2'}>{hex}</p>
-			{name ? <p className={'text-sm font-bold text-dark-blue-1'}>{name}</p> : <p className={'text-sm font-bold text-dark-blue-1'}>&nbsp;</p>}
-		</div>
-	);
-}
-
-function	ColorPaletteLight() {
-	return (
-		<div className={'mb-10 w-full'}>
-			<div className={'grid grid-cols-8 gap-4 gap-y-6 w-full'}>
-				<ColorBox color={'bg-light-background'} hex={'#F4F7FB'} name={'Background'} />
-				<ColorBox color={'bg-light-backgroundVariant'} hex={'#E0EAFF'} name={'Background Variant'} />
-				<ColorBox color={'bg-light-surface'} hex={'#FFFFFF'} name={'Surface'} />
-				<ColorBox color={'bg-light-surfaceVariant'} hex={'#F9FBFD'} name={'Surface Variant'} />
-				<ColorBox color={'bg-light-primary'} hex={'#0657F9'} name={'Primary'} />
-				<ColorBox color={'bg-light-primaryVariant'} hex={'#004ADF'} name={'Primary Variant'} />
-				<ColorBox color={'bg-light-secondary'} hex={'#E0EAFF'} name={'Secondary'} />
-				<div />
-				<ColorBox color={'bg-light-titles'} hex={'#001746'} name={'Titles'} />
-				<ColorBox color={'bg-light-titlesVariant'} hex={'#0657F9'} name={'Titles Variant'} />
-				<ColorBox color={'bg-light-texts'} hex={'#7F8DA9'} name={'Texts'} />
-				<ColorBox color={'bg-light-icons-primary'} hex={'#CED5E3'} name={'Icons Primary'} />
-				<ColorBox color={'bg-light-icons-variant'} hex={'#475570'} name={'icons-variant'} />
+		<Card className={'flex flex-col px-4'}>
+			<div className={'flex flex-row justify-between items-center pb-4 w-full'}>
+				<h2 className={'text-lg font-bold text-light-titles'}>{title}</h2>
+				<a href={`https://etherscan.io/token/${tokenAddress}`} target={'_blank'} rel={'noreferrer'}>
+					<Icon className={'w-5 h-5 transition-colors cursor-pointer text-light-icons-primary hover:text-light-icons-variant'}/>
+				</a>
 			</div>
-		</div>
-	);
-}
-
-function	ColorPaletteDark() {
-	return (
-		<div className={'mb-10 w-full'}>
-			<div className={'grid grid-cols-8 gap-4 gap-y-6 w-full'}>
-				<ColorBox color={'bg-dark-background'} hex={'#141414'} name={'Background'} />
-				<ColorBox color={'bg-dark-backgroundVariant'} hex={'#272727'} name={'Background Variant'} />
-				<ColorBox color={'bg-dark-surface'} hex={'#000000'} name={'Surface'} />
-				<ColorBox color={'bg-dark-surfaceVariant'} hex={'#191919'} name={'Surface Variant'} />
-				<ColorBox color={'bg-dark-primary'} hex={'#FFFFFF'} name={'Primary'} />
-				<ColorBox color={'bg-dark-primaryVariant'} hex={'#FFFFFF'} name={'Primary Variant'} />
-				<ColorBox color={'bg-dark-secondary'} hex={'#272727'} name={'Secondary'} />
-				<div />
-				<ColorBox color={'bg-dark-titles'} hex={'#FFFFFF'} name={'Titles'} />
-				<ColorBox color={'bg-dark-titlesVariant'} hex={'#FFFFFF'} name={'Titles Variant'} />
-				<ColorBox color={'bg-dark-texts'} hex={'#A8A8A8'} name={'Texts'} />
-				<ColorBox color={'bg-dark-icons-primary'} hex={'#A8A8A8'} name={'Icons Primary'} />
-				<ColorBox color={'bg-dark-icons-variant'} hex={'#FFFFFF'} name={'icons-variant'} />
-			</div>
-		</div>
-	);
-}
-
-
-function	ColorPaletteBlue() {
-	return (
-		<div className={'mb-10 w-full'}>
-			<div className={'grid grid-cols-8 gap-4 gap-y-6 w-full'}>
-				<ColorBox color={'bg-blue-background'} hex={'#012A7C'} name={'Background'} />
-				<ColorBox color={'bg-blue-backgroundVariant'} hex={'#001E59'} name={'Background Variant'} />
-				<ColorBox color={'bg-blue-surface'} hex={'#001746'} name={'Surface'} />
-				<ColorBox color={'bg-blue-surfaceVariant'} hex={'#012A7C'} name={'Surface Variant'} />
-				<ColorBox color={'bg-blue-primary'} hex={'#0657F9'} name={'Primary'} />
-				<ColorBox color={'bg-blue-primaryVariant'} hex={'#004ADF'} name={'Primary Variant'} />
-				<ColorBox color={'bg-blue-secondary'} hex={'#0657F9'} name={'Secondary'} />
-				<div />
-				<ColorBox color={'bg-blue-titles'} hex={'#FFFFFF'} name={'Titles'} />
-				<ColorBox color={'bg-blue-titlesVariant'} hex={'#FFFFFF'} name={'Titles Variant'} />
-				<ColorBox color={'bg-blue-texts'} hex={'#7F8DA9'} name={'Texts'} />
-				<ColorBox color={'bg-blue-icons-primary'} hex={'#7F8DA9'} name={'Icons Primary'} />
-				<ColorBox color={'bg-blue-icons-variant'} hex={'#FFFFFF'} name={'icons-variant'} />
-			</div>
-		</div>
-	);
-}
-
-function	ThemeSection({theme}) {
-	if (theme === 'light') {
-		return (
-			<div className={''}>
-				<div className={'flex flex-wrap'}>
-					<ColorPaletteLight />
+			<h3 className={'my-2 text-base font-bold text-light-titles'}>
+				{'Overview'}
+			</h3>
+			<div className={'grid grid-cols-12 gap-x-4 w-full'}>
+				<div className={'flex flex-col col-span-4'}>
+					<div className={'aspect-square flex justify-center items-center bg-light-background rounded-lg'}>
+						<Image width={40} height={40} src={tokenImage} />
+					</div>
 				</div>
-				<Browser theme={theme} /> 
-			</div>
-		);
-	}
-
-	if (theme === 'dark') {
-		return (
-			<div className={''}>
-				<div className={'flex flex-wrap'}>
-					<ColorPaletteDark />
+				<div className={'col-span-8'}>
+					<div className={'flex flex-row justify-between items-center'}>
+						<div className={'text-sm text-light-titles'}>{'APY'}</div>
+						<div className={'text-base font-bold tabular-nums text-light-primary'}>{`${formatAmount(yearnAPY)}%`}</div>
+					</div>
+					<div className={'flex flex-row justify-between items-center'}>
+						<div className={'text-sm text-light-titles'}>{'Delta'}</div>
+						<div className={'text-base font-bold tabular-nums text-[#22c55e]'}>{`+ ${formatAmount(yearnAPY - otherAPY)}%`}</div>
+					</div>
+					<div className={'flex flex-row justify-between items-center'}>
+						<div className={'text-sm text-light-titles'}>{'Balance'}</div>
+						<div className={'text-base font-bold tabular-nums text-right text-light-titles'}>{`${formatAmount(balance || 0)}`}</div>
+					</div>
 				</div>
-				<Browser theme={theme} /> 
 			</div>
-		);
-	}
-		
-	if (theme === 'blue') {
-		return (
-			<div className={''}>
-				<div className={'flex flex-wrap'}>
-					<ColorPaletteBlue />
-				</div>
-				<Browser theme={theme} /> 
+			<div className={'mt-2 mb-6'}>
+				<h3 className={'mt-4 mb-2 text-base font-bold text-light-titles'}>
+					{'About'}
+				</h3>
+				<p className={'w-full text-sm text-light-texts line-clamp-5'}>
+					{description}
+				</p>
 			</div>
-		);
-	}
+			<div className={'mt-auto'}>
+				<button
+					disabled={balance === 0}
+					className={'p-2 w-full text-base text-center text-white rounded-md transition-colors button-filled'}>
+					{buttonLabel}
+				</button>
+			</div>
+		</Card>
+	);
 }
 
 function	Index() {
-	const	[theme, set_theme] = React.useState('light');
+	const	{balancesOf} = useBalances();
+	const	{yVempireData, yVempireDataFtm} = useYVempire();
 
 	return (
-		<Card>
-			<div className={'flex flex-row justify-between mb-8'}>
-				<div className={'flex flex-row items-center'}>
-					<div className={'mr-4 w-4 h-4 bg-yearn-blue rounded-sm'} />
-					<h1 className={'text-4xl font-bold text-dark-blue-1'}>{'Yearn Theme System'}</h1>
-				</div>
-				<div>
-					<select
-						onChange={e => set_theme(e.target.value)}
-						className={'relative py-1 w-33 text-light-primaryVariant bg-light-secondary rounded-md border-none focus:border-none outline-none focus:outline-none ring-0 focus:ring-0 cursor-pointer'}>
-						<option value={'light'}>{'Light'}</option>
-						<option value={'dark'}>{'Dark'}</option>
-						<option value={'blue'}>{'Blue'}</option>
-					</select>
-				</div>
+		<div className={'flex flex-col space-y-4 w-full'}>
+			<div className={'grid grid-cols-3 gap-4'}>
+				{
+					yVempireData
+						.filter(e => e.yvToken.apy - e.uToken.apy > 0)
+						.filter(e => Number(balancesOf[e.uToken.address]) > Number(0))
+						.sort((a, b) => balancesOf[b.uToken.address] - balancesOf[a.uToken.address])
+						.map((pair, index) => (
+							<MigrateBox
+								key={`${pair.underlyingAddress}_${index}`}
+								title={pair.underlyingName}
+								tokenAddress={pair.underlyingAddress}
+								tokenImage={pair.image}
+								yearnAPY={pair.yvToken.apy}
+								otherAPY={pair.uToken.apy}
+								balance={Number(balancesOf[pair.uToken.address]) || 0}
+								symbol={pair.underlyingName}
+								description={pair.description}
+								buttonLabel={pair.service === 0 ? 'Migrate from Compound' : pair.service === 1 ? 'Migrate from Aave V1' : 'Migrate from Aave V2'} />
+						))
+				}
+				{
+					yVempireDataFtm
+						.filter(e => e.yvToken.apy - e.uToken.apy > 0)
+						.filter(e => Number(balancesOf[e.uToken.address]) > Number(0))
+						.sort((a, b) => balancesOf[b.uToken.address] - balancesOf[a.uToken.address])
+						.map((pair, index) => (
+							<MigrateBox
+								key={`${pair.underlyingAddress}_${index}`}
+								title={pair.underlyingName}
+								tokenAddress={pair.underlyingAddress}
+								tokenImage={pair.image}
+								yearnAPY={pair.yvToken.apy}
+								otherAPY={pair.uToken.apy}
+								balance={Number(balancesOf[pair.uToken.address]) || 0}
+								symbol={pair.underlyingName}
+								description={pair.description}
+								buttonLabel={pair.service === 0 ? 'Migrate from Compound' : pair.service === 1 ? 'Migrate from Aave V1' : 'Migrate from Aave V2'} />
+						))
+				}
 			</div>
-			<ThemeSection theme={theme} />
-		</Card>
+		</div>
 	);
 }
 

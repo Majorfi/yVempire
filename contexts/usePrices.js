@@ -31,9 +31,10 @@ export const PricesContextApp = ({children}) => {
 	**************************************************************************/
 	React.useEffect(() => {
 		if (process.env.USE_PRICES) {
-			axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${process.env.CG_IDS}&vs_currencies=usd`).then(({data}) => {
+			axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${process.env.CG_IDS}&vs_currencies=usd,eth`).then(({data}) => {
 				set_prices(data);
 				set_nonce(n => n + 1);
+
 				if (process.env.USE_PRICES_TRI_CRYPTO) {
 					getTriCryptoPrice({provider: getProvider(process.env.RPC_NETWORK)}).then((price) => {
 						data['triCrypto'] = {usd: Number(price)};

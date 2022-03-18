@@ -7,21 +7,8 @@ module.exports = {
 	darkMode: 'class',
 	content: [
 		'./pages/**/*.js',
-		'./components/**/*.js'
-	],
-	safelist: [
-		{
-			pattern: /(text|bg|border)-(dark|blue|light)-(background|backgroundVariant|surface|surfaceVariant|primary|primaryVariant|secondary|titles|titlesVariant|texts|icons|iconsVariant|disabled)/,
-			variants: ['hover'],
-		},
-		{
-			pattern: /(text|bg|border)-(dark|blue|light)-(button)-(filled|outlined|disabled)-(primary|variant|text|disabled|disabled-text)/,
-			variants: ['hover'],
-		},
-		{
-			pattern: /(text|bg|border)-(dark|blue|light)-(icons)-(primary|variant)/,
-			variants: ['hover'],
-		},
+		'./components/**/*.js',
+		'./lib/**/*.js'
 	],
 	theme: {
 		colors: {
@@ -33,6 +20,7 @@ module.exports = {
 				primary: '#0657F9',
 				primaryVariant: '#004ADF',
 				secondary: '#E0EAFF',
+				secondaryVariant: '#C6D7F9',
 				titles: '#001746',
 				titlesVariant: '#0657F9',
 				texts: '#7F8DA9',
@@ -58,77 +46,6 @@ module.exports = {
 					}
 				}
 			},
-
-			'dark': {
-				background: '#141414',
-				backgroundVariant: '#272727',
-				surface: '#000000',
-				surfaceVariant: '#191919',
-				primary: '#FFFFFF',
-				primaryVariant: '#FFFFFF',
-				secondary: '#272727',
-				titles: '#FFFFFF',
-				titlesVariant: '#FFFFFF',
-				texts: '#A8A8A8',
-				disabled: '#CED5E3',
-				icons: {
-					primary: '#A8A8A8',
-					variant: '#FFFFFF'
-				},
-				button: {
-					filled: {
-						primary: '#0657F9',
-						variant: '#004ADF',
-						text: '#FFFFFF',
-					},
-					outlined: {
-						primary: '#FFFFFF',
-						variant: '#272727',
-						text: '#FFFFFF',
-					},
-					disabled: {
-						primary: '#141414',
-						text: '#A8A8A8',
-					}
-				}
-			},
-			
-			'blue': {
-				background: '#012A7C',
-				backgroundVariant: '#001E59',
-				surface: '#001746',
-				surfaceVariant: '#012A7C',
-				primary: '#0657F9',
-				primaryVariant: '#004ADF',
-				secondary: '#0657F9',
-				titles: '#FFFFFF',
-				titlesVariant: '#FFFFFF',
-				texts: '#7F8DA9',
-				disabled: '#CED5E3',
-				icons: {
-					primary: '#7F8DA9',
-					variant: '#FFFFFF'
-				},
-				button: {
-					filled: {
-						primary: '#0657F9',
-						variant: '#004ADF',
-						text: '#FFFFFF',
-					},
-					outlined: {
-						primary: '#0657F9',
-						variant: '#012A7C',
-						text: '#0657F9',
-					},
-					disabled: {
-						primary: '#012A7C',
-						text: '#7F8DA9',
-					}
-				}
-			},
-			
-
-
 			'dark-blue-1': '#001746',
 			'dark-blue-2': '#183672',
 			'dark-blue-3': '#012A7C',
@@ -164,7 +81,8 @@ module.exports = {
 				'6xl': '1200px',
 			},
 			fontSize: {
-				'sm': ['12px', '16px'],
+				'xs': ['12px', '16px'],
+				'sm': ['14px', '20px'],
 				'base': ['16px', '24px'],
 				'lg': ['20px', '32px'],
 				'xl': ['24px', '32px'],
@@ -174,6 +92,7 @@ module.exports = {
 	},
 	plugins: [
 		require('@tailwindcss/typography'),
-		require('@tailwindcss/forms')
+		require('@tailwindcss/forms'),
+		require('@tailwindcss/line-clamp'),
 	],
 };

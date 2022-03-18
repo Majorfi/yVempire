@@ -42,8 +42,8 @@ button {@apply cursor-pointer}
 button:disabled {@apply cursor-not-allowed}
 
 /* Size of buttons */
-.button-small {@apply w-33 px-2 py-1 rounded-sm text-base text-center transition-colors}
-.button-large {@apply w-55 px-2 py-2 rounded-sm text-base text-center transition-colors}
+.button-small {@apply px-3 h-8 rounded-lg text-base text-center transition-colors}
+.button-large {@apply px-3 h-8 rounded-lg text-base text-center transition-colors}
 
 /* Color style of buttons */
 .button-light {@apply text-yearn-blue bg-yearn-blue-light-2 hover:bg-yearn-blue-light-1}
