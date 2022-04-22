@@ -1,28 +1,33 @@
 const Dotenv = require('dotenv-webpack');
 
 module.exports = ({
-	i18n: {
-		locales: ['en', 'fr', 'es', 'de', 'pt', 'el', 'tr', 'vi', 'zh', 'hi', 'ja'],
-		defaultLocale: 'en',
-		localeDetection: false
-	},
 	experimental: {
-		concurrentFeatures: true,
+		concurrentFeatures: true
 	},
 	plugins: [new Dotenv()],
 	images: {
 		domains: [
 			'rawcdn.githack.com'
-		],
+		]
 	},
 	env: {
+		VAULT_SWAPPER_ADDR: '0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa',
 		WEBSITE_URI: 'https://yearn-ui.major.tax/',
 		WEBSITE_NAME: 'yVempire',
 		WEBSITE_TITLE: 'yVempire',
-		WEBSITE_DESCRIPTION: 'Template used for some Yearn\'s project',
+		WEBSITE_DESCRIPTION: 'Get a better yield',
 		PROJECT_GITHUB_URL: 'https://github.com/Major-Eth/yUITemplate',
+		USE_WALLET: true,
 		USE_PRICES: true,
+		USE_NETWORKS: true,
+		USE_FEEDBACKS: false,
 		USE_PRICE_TRI_CRYPTO: false,
+		ALCHEMY_KEY: process.env.ALCHEMY_KEY,
+		RPC_URL: {
+			1: process.env.RPC_URL_MAINNET,
+			250: process.env.RPC_URL_FANTOM || 'https://rpc.ftm.tools',
+			42161: process.env.RPC_URL_ARBITRUM || 'https://arbitrum.public-rpc.com'
+		},
 		CG_IDS: ['ethereum', 'yearn-finance', 'dai', 'usd-coin', 'tether', 'wrapped-bitcoin', 'chainlink', 'uniswap', 'nusd', 'rai', 'havven'],
 		TOKENS: [
 			//underlying Tokens
@@ -71,9 +76,8 @@ module.exports = ({
 			['0xccf4429db6322d5c611ee964527d42e5d685dd6a', 8, 1],
 			['0xface851a4921ce59e912d19329929ce6da6eb0c7', 18, 1],
 			['0x35a18000230da775cac24873d00ff85bccded550', 18, 1],
-			['0x80a2ae356fc9ef4305676f7a3e2ed04e12c33946', 18, 1],
+			['0x80a2ae356fc9ef4305676f7a3e2ed04e12c33946', 18, 1]
 			
-		],
-		ALCHEMY_KEY: process.env.ALCHEMY_KEY
+		]
 	}
 });
