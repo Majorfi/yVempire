@@ -155,7 +155,7 @@ function	MigrateBox({pair, balance, rawBalance, retrieveBalances, onForceRerende
 function	Index(): ReactElement {
 	const	{chainID} = useWeb3();
 	const	{balancesOf, rawBalancesOf, retrieveBalances} = useBalances();
-	const	{yVempireData, yVempireDataFtm} = useYVempire();
+	const	{yVempireData, yVempireDataFtm, nonce: dataNonce} = useYVempire();
 	const	basePairs = React.useRef(yVempireData);
 	const	[filteredPairData, set_filteredPairData] = React.useState<TPair[]>([]);
 	const	[searchTerm, set_searchTerm] = React.useState('');
@@ -196,7 +196,7 @@ function	Index(): ReactElement {
 		utils.performBatchedUpdates((): void => {
 			set_filteredPairData(_filteredPairData);
 		});
-	}, [basePairs, searchTerm, isOnlyWithBalance, rawBalancesOf, deltaSelector, nonce]);
+	}, [dataNonce, basePairs, searchTerm, isOnlyWithBalance, rawBalancesOf, deltaSelector, nonce]);
 
 	/* 🔵 - Yearn Finance ******************************************************
 	** Main render of the page.

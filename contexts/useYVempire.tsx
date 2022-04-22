@@ -48,9 +48,10 @@ function	calculateAAVEV2APY({liquidityRate}: {liquidityRate: string}): number {
 
 type	TYVempireContext = {
 	yVempireData: TPair[],
-	yVempireDataFtm: TPair[]
+	yVempireDataFtm: TPair[],
+	nonce: number
 }
-const	YVempireContext = createContext<TYVempireContext>({yVempireData: PAIRS, yVempireDataFtm: PAIRS_FTM});
+const	YVempireContext = createContext<TYVempireContext>({yVempireData: PAIRS, yVempireDataFtm: PAIRS_FTM, nonce: 0});
 export const YVempireContextApp = ({children}: {children: ReactElement}): ReactElement => {
 	const	{chainID} = useWeb3();
 	const	[yVempireData, set_yVempireData] = React.useState(PAIRS);
@@ -169,7 +170,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	}, [yVempireDataFtm]);
 
 	const getUTokenBalancesForChain = React.useCallback(async (): Promise<void> => {
-		if ([1, 1337].includes(chainID)) {
+		if ([0, 1, 1337].includes(chainID)) {
 			await getUTokenBalancesForChain1(true);
 			getUTokenBalancesForChain250(false);
 		} else if (chainID === 250) {
@@ -183,7 +184,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	}, [getUTokenBalancesForChain]);
 
 	return (
-		<YVempireContext.Provider value={{yVempireData, yVempireDataFtm}}>
+		<YVempireContext.Provider value={{yVempireData, yVempireDataFtm, nonce}}>
 			{children}
 		</YVempireContext.Provider>
 	);
