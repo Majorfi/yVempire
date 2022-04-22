@@ -12,11 +12,11 @@ module.exports = ({
 	},
 	env: {
 		VAULT_SWAPPER_ADDR: '0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa',
-		WEBSITE_URI: 'https://yearn-ui.major.tax/',
+		WEBSITE_URI: 'https://vempire.ycorpo.com/',
 		WEBSITE_NAME: 'yVempire',
 		WEBSITE_TITLE: 'yVempire',
 		WEBSITE_DESCRIPTION: 'Get a better yield',
-		PROJECT_GITHUB_URL: 'https://github.com/Major-Eth/yUITemplate',
+		PROJECT_GITHUB_URL: 'https://github.com/Majorfi/yVempire',
 		USE_WALLET: true,
 		USE_PRICES: true,
 		USE_NETWORKS: true,
@@ -77,7 +77,6 @@ module.exports = ({
 			['0xface851a4921ce59e912d19329929ce6da6eb0c7', 18, 1],
 			['0x35a18000230da775cac24873d00ff85bccded550', 18, 1],
 			['0x80a2ae356fc9ef4305676f7a3e2ed04e12c33946', 18, 1]
-			
 		]
 	}
 });
