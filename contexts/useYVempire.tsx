@@ -55,6 +55,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	const	{chainID} = useWeb3();
 	const	[yVempireData, set_yVempireData] = React.useState(PAIRS);
 	const	[yVempireDataFtm, set_yVempireDataFtm] = React.useState(PAIRS_FTM);
+	const	[nonce, set_nonce] = React.useState(0);
 	const	getUTokenIsRunning = React.useRef(false);
 	const	getUTokenRunNonce = React.useRef(0);
 
@@ -105,7 +106,6 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 				const	compoundV2 = (compoundV2Data.data.cToken).find((cmp2: any): boolean => toAddress(cmp2.underlying_address) === toAddress(pair.underlyingAddress));
 				if (compoundV2) {
 					pair.uToken.apy = Number(compoundV2.supply_rate.value * 100);
-					console.warn(pair.uToken.apy);
 				}
 			} else if (pair.service === 1) {
 				const	aaveV1 = (aaveV1Data.protocolData.reserves).find((av1: any): boolean => toAddress(av1.underlyingAsset) === toAddress(pair.underlyingAddress));
@@ -124,6 +124,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		if (getUTokenRunNonce.current === currentNonce) {
 			performBatchedUpdates((): void => {
 				set_yVempireData(_yVempireData);
+				set_nonce(nonce + 1);
 				if (shouldUseProgress)
 					NProgress.done();
 			});
@@ -160,6 +161,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		if (getUTokenRunNonce.current === currentNonce) {
 			performBatchedUpdates((): void => {
 				set_yVempireDataFtm(_yVempireDataFtm);
+				set_nonce(nonce + 1);
 				if (shouldUseProgress)
 					NProgress.done();
 			});
