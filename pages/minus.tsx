@@ -15,8 +15,8 @@ function	Index(): ReactElement {
 	const	basePairs = React.useRef(yVempireData);
 	const	[filteredPairData, set_filteredPairData] = React.useState<TPair[]>([]);
 	const	[searchTerm, set_searchTerm] = React.useState('');
-	const	[isOnlyWithBalance, set_isOnlyWithBalance] = React.useState(true);
-	const	[deltaSelector] = React.useState<TDeltaPossibilities>('plus');
+	const	[isOnlyWithBalance, set_isOnlyWithBalance] = React.useState(false);
+	const	[deltaSelector] = React.useState<TDeltaPossibilities>('minus');
 	const	[nonce, set_nonce] = React.useState(0); //used to trigger refresh
 
 	/* 🔵 - Yearn Finance ******************************************************
