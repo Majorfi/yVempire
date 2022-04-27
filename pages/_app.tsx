@@ -11,7 +11,8 @@ import	HeaderTitle					from	'components/HeaderTitle';
 
 import	{
 	Vault as IconVault,
-	Settings as IconSettings,
+	LinkOut as IconLinkOut,
+	Labs as IconLabs,
 	LogoYearn
 }									from	'@yearn/web-lib/icons';
 import	'../style.css';
@@ -78,10 +79,16 @@ function	AppWrapper(props: AppProps): ReactElement {
 			icon: <IconVault  />
 		},
 		{
-			route: '/settings',
-			values: ['/settings'],
-			label: 'Settings',
-			icon: <IconSettings />
+			route: '/faq',
+			values: ['/faq'],
+			label: 'FAQ',
+			icon: <IconLabs />
+		},
+		{
+			route: 'https://etherscan.io/address/0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa',
+			values: ['https://etherscan.io/address/0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa'],
+			label: 'Contract',
+			icon: <IconLinkOut />
 		}
 	];
 	function	onChangeRoute(selected: string): void {
