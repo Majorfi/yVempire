@@ -14,7 +14,7 @@ import	{UiPoolDataProvider}								from	'@aave/contract-helpers';
 const	PAIRS = [...COMPOUND, ...AAVE_V1, ...AAVE_V2];
 const	PAIRS_FTM = [...AAVE_V2_FTM];
 const	AAVE_V1_QUERY = gql`{protocolData(lendingPoolAddressProvider: "0xacc030ef66f9dfeae9cbb0cd1b25654b82cfa8d5"){reserves {underlyingAsset liquidityRate decimals priceInMarketReferenceCurrency}}}`;
-const	AAVE_V2_QUERY = gql`{reserves {name underlyingAsset decimals id liquidityRate aEmissionPerSecond aTokenIncentivesIndex  aIncentivesLastUpdateTimestamp totalATokenSupply}}`;
+const	AAVE_V2_QUERY = gql`{reserves(where: {aEmissionPerSecond_gt: 0}) {name underlyingAsset decimals id liquidityRate aEmissionPerSecond aTokenIncentivesIndex  aIncentivesLastUpdateTimestamp totalATokenSupply}}`;
 
 export type TPair = {
 	service: number,
