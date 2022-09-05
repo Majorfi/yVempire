@@ -1,10 +1,10 @@
 import	React, {ReactElement}								from	'react';
 import	{ethers}											from	'ethers';
 import	Image												from	'next/image';
-import	{Card, Button}										from	'@yearn/web-lib/components';
-import	* as utils											from	'@yearn/web-lib/utils';
-import	{useUI, useWeb3}									from	'@yearn/web-lib/contexts';
-import	{LinkOut}											from	'@yearn/web-lib/icons';
+import	{Card, Button}										from	'@yearn-finance/web-lib/components';
+import	* as utils											from	'@yearn-finance/web-lib/utils';
+import	{useUI, useWeb3}									from	'@yearn-finance/web-lib/contexts';
+import	{LinkOut}											from	'@yearn-finance/web-lib/icons';
 import	{TPair}												from	'contexts/useYVempire';
 import	{checkAllowance, approveToken, migrateBachTokens}	from	'utils/actions';
 

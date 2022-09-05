@@ -1,8 +1,8 @@
 import	React, {ReactElement}						from	'react';
 import	{ethers}									from	'ethers';
-import	{Card, SearchBox, Switch, AlertBanner}		from	'@yearn/web-lib/components';
-import	* as utils									from	'@yearn/web-lib/utils';
-import	{useWeb3, useBalances}						from	'@yearn/web-lib/contexts';
+import	{Card, SearchBox, Switch, AlertBanner}		from	'@yearn-finance/web-lib/components';
+import	* as utils									from	'@yearn-finance/web-lib/utils';
+import	{useWeb3, useBalances}						from	'@yearn-finance/web-lib/contexts';
 import	{findBySearch}								from	'utils/filters';
 import	useYVempire, {TPair}						from	'contexts/useYVempire';
 import	{TDeltaPossibilities}						from	'components/DeltaSelector';

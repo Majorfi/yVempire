@@ -1,9 +1,9 @@
 import	React, {ReactElement, useContext, createContext}	from	'react';
 import	axios												from	'axios';
 import	NProgress											from	'nprogress';
-import	{useWeb3}											from	'@yearn/web-lib/contexts';
+import	{useWeb3}											from	'@yearn-finance/web-lib/contexts';
 import	{request, gql}										from	'graphql-request';
-import	{toAddress, providers, performBatchedUpdates}		from	'@yearn/web-lib/utils';
+import	{toAddress, providers, performBatchedUpdates}		from	'@yearn-finance/web-lib/utils';
 import	AAVE_V1												from	'utils/yVempire/AaveV1';
 import	AAVE_V2												from	'utils/yVempire/AaveV2';
 import	AAVE_V2_FTM											from	'utils/yVempire/AaveV2Ftm';

@@ -1,5 +1,5 @@
 import	React, {ReactElement, ReactNode, useState}	from	'react';
-import	{copyToClipboard}							from	'@yearn/web-lib/utils';
+import	{copyToClipboard}							from	'@yearn-finance/web-lib/utils';
 
 function	FAQElement({label, children}: {label: string, children: ReactNode}): ReactElement {
 	const	[isExpanded, set_isExpanded] = useState(false);

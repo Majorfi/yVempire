@@ -3,7 +3,8 @@ const {join} = require('path');
 
 module.exports = {
 	presets: [
-		require('@yearn/web-lib/tailwind.plugin')
+		require('./node_modules/@yearn-finance/web-lib/dist/tailwind.plugin.cjs'),
+		require('./node_modules/@yearn-finance/web-lib/dist/tailwind.config.cjs')
 	],
 	content: [
 		join(__dirname, 'pages', '**', '*.{js,jsx,ts,tsx}'),
@@ -12,11 +13,11 @@ module.exports = {
 		join(__dirname, 'components', 'strategies', '**', '*.{js,jsx,ts,tsx}'),
 		join(__dirname, 'components', 'vaults', '**', '*.{js,jsx,ts,tsx}'),
 		join(__dirname, 'components', '**', '*.{js,jsx,ts,tsx}'),
-		join(__dirname, 'node_modules', '@yearn', 'web-lib', 'dist', 'layouts', '**', '*.js'),
-		join(__dirname, 'node_modules', '@yearn', 'web-lib', 'dist', 'components', '**', '*.js'),
-		join(__dirname, 'node_modules', '@yearn', 'web-lib', 'dist', 'contexts', '**', '*.js'),
-		join(__dirname, 'node_modules', '@yearn', 'web-lib', 'dist', 'icons', '**', '*.js'),
-		join(__dirname, 'node_modules', '@yearn', 'web-lib', 'dist', 'utils', '**', '*.js')
+		join(__dirname, 'node_modules', '@yearn-finance', 'web-lib', 'dist', 'layouts', '**', '*.js'),
+		join(__dirname, 'node_modules', '@yearn-finance', 'web-lib', 'dist', 'components', '**', '*.js'),
+		join(__dirname, 'node_modules', '@yearn-finance', 'web-lib', 'dist', 'contexts', '**', '*.js'),
+		join(__dirname, 'node_modules', '@yearn-finance', 'web-lib', 'dist', 'icons', '**', '*.js'),
+		join(__dirname, 'node_modules', '@yearn-finance', 'web-lib', 'dist', 'utils', '**', '*.js')
 	],
 	themes: {
 		extend: {

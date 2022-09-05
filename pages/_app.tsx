@@ -3,8 +3,8 @@ import	Head						from	'next/head';
 import	{AppProps}					from	'next/app';
 import	Link						from	'next/link';
 import	{DefaultSeo}				from	'next-seo';
-import	{WithYearn}					from	'@yearn/web-lib';
-import	{Header, Navbar}			from	'@yearn/web-lib/layouts';
+import	{WithYearn}					from	'@yearn-finance/web-lib/contexts';
+import	{Header, Navbar}			from	'@yearn-finance/web-lib/layouts';
 import	{YVempireContextApp}		from	'contexts/useYVempire';
 import	Footer						from	'components/StandardFooter';
 import	HeaderTitle					from	'components/HeaderTitle';
@@ -14,7 +14,7 @@ import	{
 	LinkOut as IconLinkOut,
 	Labs as IconLabs,
 	LogoYearn
-}									from	'@yearn/web-lib/icons';
+}									from	'@yearn-finance/web-lib/icons';
 import	'../style.css';
 
 function	AppHead(): ReactElement {
