@@ -19,15 +19,15 @@ function PendingLoader(): ReactElement {
 	);
 }
 
-type 	TListTokens = [address: string, decimals: number]
+// type 	TListTokens = [address: string, decimals: number]
 type	TMigrateBox = {
 	pair: TPair,
 	balance: string,
 	rawBalance: ethers.BigNumber,
-	retrieveBalances: (tokensForChain: TListTokens[]) => void,
+	// retrieveBalances: (tokensForChain: TListTokens[]) => void,
 	onForceRerender: () => void
 }
-function	MigrateBox({pair, balance, rawBalance, retrieveBalances, onForceRerender}: TMigrateBox): ReactElement {
+function	MigrateBox({pair, balance, rawBalance, onForceRerender}: TMigrateBox): ReactElement {
 	const	{toast} = useUI();
 	const	{provider} = useWeb3();
 	const	[txStatus, set_txStatus] = React.useState({none: true, pending: false, success: false, error: false});
@@ -81,7 +81,8 @@ function	MigrateBox({pair, balance, rawBalance, retrieveBalances, onForceRerende
 				set_txStatus({none: false, pending: false, success: false, error: true});
 				return;
 			}
-			await retrieveBalances([[utils.toAddress(pair.uToken.address), pair.decimals]]);
+			// TODO: How to update balances when they may have changed (due to successful migration)
+			// await retrieveBalances([[utils.toAddress(pair.uToken.address), pair.decimals]]);
 			onForceRerender();
 			toast.dismiss(pendingToast);
 			toast.success('Token migrated!');
