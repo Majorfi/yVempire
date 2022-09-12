@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 const {join} = require('path');
 
 module.exports = {
 	presets: [
-		require('./node_modules/@yearn-finance/web-lib/dist/tailwind.plugin.cjs'),
 		require('./node_modules/@yearn-finance/web-lib/dist/tailwind.config.cjs')
 	],
 	content: [
