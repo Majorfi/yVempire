@@ -130,9 +130,9 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 					NProgress.done();
 			});
 		}
-	}, [yVempireData]);
+	}, [yVempireData, nonce]);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	const getUTokenBalancesForChain250 = React.useCallback(async (shouldUseProgress: boolean): Promise<void> => {
 		if (getUTokenIsRunning.current)
 			return;
@@ -168,17 +168,17 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 					NProgress.done();
 			});
 		}
-	}, [yVempireDataFtm]);
+	}, [yVempireDataFtm, nonce]);
 
 	const getUTokenBalancesForChain = React.useCallback(async (): Promise<void> => {
 		if ([0, 1, 1337].includes(chainID)) {
 			await getUTokenBalancesForChain1(true);
-			// getUTokenBalancesForChain250(false);
+			getUTokenBalancesForChain250(false);
 		} else if (chainID === 250) {
-			// await getUTokenBalancesForChain250(true);
+			await getUTokenBalancesForChain250(true);
 			getUTokenBalancesForChain1(false);
 		}
-	}, [getUTokenBalancesForChain1, chainID]);
+	}, [getUTokenBalancesForChain1, getUTokenBalancesForChain250, chainID]);
 
 	React.useEffect((): void => {
 		getUTokenBalancesForChain();
