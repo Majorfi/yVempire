@@ -15,7 +15,7 @@
   "dependencies": {
     "@aave/contract-helpers": "^1.1.0",
     "@aave/protocol-js": "^4.3.0",
-    "@yearn/web-lib": "^0.2.20",
+    "@yearn-finance/web-lib": "0.13.15",
     "autoprefixer": "^10.4.4",
     "axios": "^0.26.1",
     "bignumber.js": "^9.0.2",
@@ -47,6 +47,7 @@
     "eslint-plugin-tailwindcss": "^3.5.0",
     "postcss": "^8.4.12",
     "postcss-import": "^14.1.0",
+    "postcss-nesting": "^10.1.10",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.3"
   }

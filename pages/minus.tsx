@@ -1,17 +1,25 @@
 import	React, {ReactElement}						from	'react';
 import	{ethers}									from	'ethers';
-import	{Card, SearchBox, Switch, AlertBanner}		from	'@yearn/web-lib/components';
-import	* as utils									from	'@yearn/web-lib/utils';
-import	{useWeb3, useBalances}						from	'@yearn/web-lib/contexts';
+import	{Card, SearchBox, Switch, AlertBanner}		from	'@yearn-finance/web-lib/components';
+import	* as utils									from	'@yearn-finance/web-lib/utils';
+import	{useWeb3}						from	'@yearn-finance/web-lib/contexts';
+import	{useBalances}						from	'@yearn-finance/web-lib/hooks';
+import	ADDRESSES							from	'config/constants';
 import	{findBySearch}								from	'utils/filters';
 import	useYVempire, {TPair}						from	'contexts/useYVempire';
 import	{TDeltaPossibilities}						from	'components/DeltaSelector';
 import	MigrateBox									from	'components/MigrateBox';
 
 function	Index(): ReactElement {
-	const	{chainID} = useWeb3();
-	const	{balancesOf, rawBalancesOf, retrieveBalances} = useBalances();
+	const	{chainID, provider} = useWeb3();
 	const	{yVempireData, yVempireDataFtm, nonce: dataNonce} = useYVempire();
+	const	{data: balancesOf} = useBalances({
+		key: dataNonce,
+		provider: provider,
+		tokens:  ADDRESSES.map((tokenAddr): {[key: string]: string} => {
+			return {token: tokenAddr};
+		})
+	});
 	const	basePairs = React.useRef(yVempireData);
 	const	[filteredPairData, set_filteredPairData] = React.useState<TPair[]>([]);
 	const	[searchTerm, set_searchTerm] = React.useState('');
@@ -41,7 +49,7 @@ function	Index(): ReactElement {
 		let		_filteredPairData = [...basePairs.current];
 
 		if (isOnlyWithBalance) {
-			_filteredPairData = _filteredPairData.filter((e): boolean => (rawBalancesOf?.[e.uToken.address] || ethers.BigNumber.from(0))?.gt(ethers.BigNumber.from(0)));
+			_filteredPairData = _filteredPairData.filter((e): boolean => (balancesOf?.[e.uToken.address]?.raw || ethers.BigNumber.from(0))?.gt(ethers.BigNumber.from(0)));
 		}
 		if (deltaSelector === 'plus') {
 			_filteredPairData = _filteredPairData.filter((e): boolean => e.yvToken.apy - e.uToken.apy >= 0);
@@ -52,7 +60,7 @@ function	Index(): ReactElement {
 		utils.performBatchedUpdates((): void => {
 			set_filteredPairData(_filteredPairData);
 		});
-	}, [dataNonce, basePairs, searchTerm, isOnlyWithBalance, rawBalancesOf, deltaSelector, nonce]);
+	}, [dataNonce, basePairs, searchTerm, isOnlyWithBalance, balancesOf, deltaSelector, nonce]);
 
 	/* 🔵 - Yearn Finance ******************************************************
 	** Main render of the page.
@@ -92,15 +100,15 @@ function	Index(): ReactElement {
 				<div className={'grid grid-cols-1 gap-4 md:grid-cols-3'}>
 					{
 						filteredPairData
-							.sort((a: TPair, b: TPair): number => (rawBalancesOf?.[b.uToken.address] || ethers.BigNumber.from(0)).sub(rawBalancesOf?.[a.uToken.address] || ethers.BigNumber.from(0)))
+							.sort((a: TPair, b: TPair): number => (balancesOf?.[b.uToken.address]?.raw || ethers.BigNumber.from(0)).sub(balancesOf?.[a.uToken.address]?.raw || ethers.BigNumber.from(0)))
 							.map((pair: TPair, index: number): ReactElement => (
 								<MigrateBox
 									key={`${pair.underlyingAddress}_${index}`}
 									pair={pair}
-									retrieveBalances={retrieveBalances}
+									// retrieveBalances={retrieveBalances}
 									onForceRerender={(): void => set_nonce(nonce + 1)}
 									balance={balancesOf?.[pair.uToken.address] || '0'}
-									rawBalance={rawBalancesOf?.[pair.uToken.address] || ethers.BigNumber.from(0)} />
+									rawBalance={balancesOf?.[pair.uToken.address]?.raw || ethers.BigNumber.from(0)} />
 							))
 					}
 				</div>

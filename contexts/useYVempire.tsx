@@ -1,9 +1,9 @@
 import	React, {ReactElement, useContext, createContext}	from	'react';
 import	axios												from	'axios';
 import	NProgress											from	'nprogress';
-import	{useWeb3}											from	'@yearn/web-lib/contexts';
+import	{useWeb3}											from	'@yearn-finance/web-lib/contexts';
 import	{request, gql}										from	'graphql-request';
-import	{toAddress, providers, performBatchedUpdates}		from	'@yearn/web-lib/utils';
+import	{toAddress, providers, performBatchedUpdates}		from	'@yearn-finance/web-lib/utils';
 import	AAVE_V1												from	'utils/yVempire/AaveV1';
 import	AAVE_V2												from	'utils/yVempire/AaveV2';
 import	AAVE_V2_FTM											from	'utils/yVempire/AaveV2Ftm';
@@ -91,7 +91,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		const currentNonce = getUTokenRunNonce.current;
 
 		const	[{data: yearnData}, compoundV2Data, aaveV1Data, aaveV2Data] = await Promise.all([
-			axios.get('https://api.yearn.finance/v1/chains/1/vaults/all'),
+			axios.get(`${process.env.YDAEMON_API_URL}/1/vaults/all`),
 			axios.get('https://api.compound.finance/api/v2/ctoken'),
 			request('https://cache-api-mainnet.aave.com/graphql', AAVE_V1_QUERY),
 			request('https://api.thegraph.com/subgraphs/name/aave/protocol-v2', AAVE_V2_QUERY)
@@ -130,7 +130,8 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 					NProgress.done();
 			});
 		}
-	}, [yVempireData]);
+	}, [yVempireData, nonce]);
+
 
 	const getUTokenBalancesForChain250 = React.useCallback(async (shouldUseProgress: boolean): Promise<void> => {
 		if (getUTokenIsRunning.current)
@@ -141,7 +142,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		const currentNonce = getUTokenRunNonce.current;
 
 		const	[{data: yearnData}, aaveV2Data] = await Promise.all([
-			axios.get('https://api.yearn.finance/v1/chains/250/vaults/all'),
+			axios.get(`${process.env.YDAEMON_API_URL}/250/vaults/all`),
 			fetchReserveAaveV2Ftm()
 		]);
 
@@ -167,7 +168,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 					NProgress.done();
 			});
 		}
-	}, [yVempireDataFtm]);
+	}, [yVempireDataFtm, nonce]);
 
 	const getUTokenBalancesForChain = React.useCallback(async (): Promise<void> => {
 		if ([0, 1, 1337].includes(chainID)) {

@@ -5,11 +5,11 @@
     ],
     "baseUrl": ".",
     "paths": {
-		"@yearn/web-lib/components": ["./node_modules/@yearn/web-lib/dist/components/index.js"],
-		"@yearn/web-lib/contexts": ["./node_modules/@yearn/web-lib/dist/contexts/index.js"],
-		"@yearn/web-lib/hooks": ["./node_modules/@yearn/web-lib/dist/hooks/index.js"],
-		"@yearn/web-lib/icons": ["./node_modules/@yearn/web-lib/dist/icons/index.js"],
-		"@yearn/web-lib/utils": ["./node_modules/@yearn/web-lib/dist/utils/index.js"],
+		"@yearn-finance/web-lib/components": ["./node_modules/@yearn-finance/web-lib/dist/components/index.js"],
+		"@yearn-finance/web-lib/contexts": ["./node_modules/@yearn-finance/web-lib/dist/contexts/index.js"],
+		"@yearn-finance/web-lib/hooks": ["./node_modules/@yearn-finance/web-lib/dist/hooks/index.js"],
+		"@yearn-finance/web-lib/icons": ["./node_modules/@yearn-finance/web-lib/dist/icons/index.js"],
+		"@yearn-finance/web-lib/utils": ["./node_modules/@yearn-finance/web-lib/dist/utils/index.js"],
     },
     /* Basic Options */
     "target": "esnext",
@@ -54,11 +54,11 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.d.tsx",
-	"public",
-	"postcss.config.js",
-	"tailwind.config.js",
-	"next.config.js",
-	"theme.config.js",
-	".eslintrc.js"
+    "public",
+    "postcss.config.js",
+    "tailwind.config.js",
+    "next.config.js",
+    "theme.config.js",
+    ".eslintrc.js"
   ]
 }
