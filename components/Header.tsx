@@ -29,12 +29,12 @@ function	Header(): ReactElement {
 			<header className={'flex flex-row items-center justify-between pt-4 pb-9 text-xs sm:text-sm md:mb-0 md:text-base'}>
 				<nav className={'hidden w-1/3 flex-row items-center space-x-3 md:flex md:space-x-6'}>
 					<Link href={'/'}>
-						<p className={`yveCRV--nav-link ${router.pathname === '/' ? 'active' : '' }`}>
+						<p className={`yVempire--nav-link ${router.pathname === '/' ? 'active' : '' }`}>
 							{'Bridge'}
 						</p>
 					</Link>
 					<Link href={'/about'}>
-						<p className={`yveCRV--nav-link ${router.pathname === '/about' ? 'active' : '' }`}>
+						<p className={`yVempire--nav-link ${router.pathname === '/about' ? 'active' : '' }`}>
 							{'About'}
 						</p>
 					</Link>
@@ -65,7 +65,7 @@ function	Header(): ReactElement {
 						openLoginModal();
 					}
 				}}>
-					<p className={'yveCRV--nav-link text-sm'}>
+					<p className={'yVempire--nav-link text-sm'}>
 						{walletIdentity}
 					</p>
 				</div>

@@ -14,12 +14,6 @@
 	@apply flex flex-row justify-between p-2 space-x-2 w-full cursor-pointer md:p-0 md:space-x-6 md:w-max
 }
 
-.flex-row-center {@apply flex flex-row items-center;}
-.flex-row-start {@apply flex flex-row items-start;}
-.flex-col-start {@apply flex flex-col items-start;}
-.flex-col-full {@apply flex flex-col w-full h-full;}
-
-
 :root,
 :root body[data-theme="light"] {
 	--default-rounded: 0rem;
@@ -58,136 +52,24 @@
 		&[data-padding="relaxed"] {@apply p-8;}
 	}
 
-}
-
-
-
-
-
-/* 🔵 - Yearn Finance ******************************************************
-** Buyback specific
-**************************************************************************/
-.md-adapted-height {
-	height: calc(100vh - 54px);
-}
-
-.grid-row {
-	@apply grid grid-cols-22 w-max md:w-full py-3 px-6 h-16 relative mb-0.5;
-}
-.row-3 {
-	@apply flex col-span-3;
-}
-.row-4 {
-	@apply flex col-span-4;
-}
-
-
-@screen md {
-	.md-adapted-height {
-		@apply h-full;
+	& .yVempire--nav-link {
+		@apply relative cursor-pointer transition-colors text-neutral-500 hover:text-neutral-900 font-normal;
+		
+		&.active {
+			@apply text-neutral-900 font-bold;
+		}
 	}
 
-	.adapted-height {
-		height: calc(100vh - 328px);
+	& .mobile-nav-item {
+		@apply flex flex-col items-start justify-between rounded bg-good-ol-grey-100;
+		& > p {
+			@apply p-2 text-base font-bold text-neutral-900;
+		}
 	}
+
 }
 
-.goUp0 {
-	opacity: 0;
-	animation: goUpAnimation0 2s, fadeOut 2s;
-}
 
-@keyframes goUpAnimation0 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(0px, -400px);
-	}
-}
-
-.goUp1 {
-	opacity: 0;
-	animation: goUpAnimation1 2s, fadeOut 2s;
-}
-
-@keyframes goUpAnimation1 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(0px, -300px);
-	}
-}
-
-.goUp2 {
-	opacity: 0;
-	animation: goUpAnimation2 2s, fadeOut 2s;
-}
-
-@keyframes goUpAnimation2 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(0px, -200px);
-	}
-}
-
-.leftRight0 {
-	animation: leftRightAnimation0 0.3s alternate infinite ease-in-out;
-}
-
-@keyframes leftRightAnimation0 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(50px, 0px);
-	}
-}
-
-.leftRight1 {
-	animation: leftRightAnimation1 0.3s alternate infinite ease-in-out;
-}
-
-@keyframes leftRightAnimation1 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(100px, 0px);
-	}
-}
-
-.leftRight2 {
-	animation: leftRightAnimation2 0.3s alternate infinite ease-in-out;
-}
-
-@keyframes leftRightAnimation2 {
-	from {
-		transform: translate(0px, 0px);
-	}
-
-	to {
-		transform: translate(-50px, 0px);
-	}
-}
-
-@keyframes fadeOut {
-	from {
-		opacity: 1;
-	}
-
-	to {
-		opacity: 0;
-	}
-}
 
 .wordWrapper {
 	display: inline-block;
