@@ -1,129 +1,84 @@
-import	React, {ReactElement}		from	'react';
-import	Head						from	'next/head';
-import	{AppProps}					from	'next/app';
-import	Link						from	'next/link';
-import	{DefaultSeo}				from	'next-seo';
-import	{WithYearn}					from	'@yearn-finance/web-lib/contexts';
-import	{Header, Navbar}			from	'@yearn-finance/web-lib/layouts';
-import	{YVempireContextApp}		from	'contexts/useYVempire';
-import	Footer						from	'components/StandardFooter';
-import	HeaderTitle					from	'components/HeaderTitle';
+import React, {ReactElement} from 'react';
+import Script from 'next/script';
+import {AppProps} from 'next/app';
+import {AnimatePresence, motion} from 'framer-motion';
+import {Button} from '@yearn-finance/web-lib/components';
+import {WithYearn} from '@yearn-finance/web-lib/contexts';
+import {YVempireContextApp} from 'contexts/useYVempire';
+import Header from 'components/Header';
+import Meta from 'components/common/Meta';
 
-import	{
-	Vault as IconVault,
-	LinkOut as IconLinkOut,
-	Labs as IconLabs,
-	LogoYearn
-}									from	'@yearn-finance/web-lib/icons';
 import	'../style.css';
 
-function	AppHead(): ReactElement {
+const transition = {duration: 0.3, ease: [0.17, 0.67, 0.83, 0.67]};
+const variants = {
+	initial: {y: 20, opacity: 0},
+	enter: {y: 0, opacity: 1, transition},
+	exit: {y: -20, opacity: 0, transition}
+};
+
+function	TextAnimation(): ReactElement {
 	return (
 		<>
-			<Head>
-				<title>{process.env.WEBSITE_NAME}</title>
-				<meta httpEquiv={'X-UA-Compatible'} content={'IE=edge'} />
-				<meta name={'viewport'} content={'width=device-width, initial-scale=1'} />
-				<meta name={'description'} content={process.env.WEBSITE_NAME} />
-				<meta name={'msapplication-TileColor'} content={'#62688F'} />
-				<meta name={'theme-color'} content={'#ffffff'} />
-				<meta charSet={'utf-8'} />
-
-				<link rel={'shortcut icon'} type={'image/x-icon'} href={'/favicons/favicon.ico'} />
-				<link rel={'apple-touch-icon'} sizes={'180x180'} href={'/favicons/apple-touch-icon.png'} />
-				<link rel={'icon'} type={'image/png'} sizes={'32x32'} href={'/favicons/favicon-32x32.png'} />
-				<link rel={'icon'} type={'image/png'} sizes={'16x16'} href={'/favicons/favicon-16x16.png'} />
-				<link rel={'icon'} type={'image/png'} sizes={'192x192'} href={'/favicons/android-chrome-192x192.png'} />
-				<link rel={'icon'} type={'image/png'} sizes={'512x512'} href={'/favicons/android-chrome-512x512.png'} />
-
-				<meta name={'robots'} content={'index,nofollow'} />
-				<meta name={'googlebot'} content={'index,nofollow'} />
-				<meta charSet={'utf-8'} />
-			</Head>
-			<DefaultSeo
-				title={process.env.WEBSITE_NAME}
-				defaultTitle={process.env.WEBSITE_NAME}
-				description={process.env.WEBSITE_DESCRIPTION}
-				openGraph={{
-					type: 'website',
-					locale: 'en_US',
-					url: process.env.WEBSITE_URI,
-					site_name: process.env.WEBSITE_NAME,
-					title: process.env.WEBSITE_NAME,
-					description: process.env.WEBSITE_DESCRIPTION,
-					images: [
-						{
-							url: `${process.env.WEBSITE_URI}og.png`,
-							width: 1200,
-							height: 675,
-							alt: 'Yearn'
-						}
-					]
-				}}
-				twitter={{
-					handle: '@iearnfinance',
-					site: '@iearnfinance',
-					cardType: 'summary_large_image'
-				}} />
+			<Script src={'/textanimation.js'} />
+			<div className={'relative flex flex-row'}>
+				<p className={'wordWrapper w-[560px]'}> 
+					<span className={'word'}>{'AAVE'}</span>
+					<span className={'word'}>{'Compound'}</span>
+					<span className={'word'}>{'Curve'}</span>
+					<span className={'word'}>{'Convex'}</span>
+					<span className={'word'}>{'Stake Dao'}</span>
+				</p>
+				{/* <p className={'flex items-center text-5xl text-neutral-900'}>
+					<IconChevronPlain className={'h-12 w-12 -rotate-90'} />
+				</p>
+				<p className={'flex w-[560px] items-center justify-center text-5xl font-bold uppercase text-neutral-900 md:text-8xl'}> 
+					{'Yearn'}
+				</p> */}
+			</div>
 		</>
 	);
 }
 
-function	AppWrapper(props: AppProps): ReactElement {
+
+function	WithLayout(props: AppProps): ReactElement {
 	const	{Component, pageProps, router} = props;
-	const	navbarMenuOptions = [
-		{
-			route: '/',
-			values: ['/'],
-			label: 'Migrations',
-			icon: <IconVault  />
-		},
-		{
-			route: '/faq',
-			values: ['/faq'],
-			label: 'FAQ',
-			icon: <IconLabs />
-		},
-		{
-			route: 'https://etherscan.io/address/0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa',
-			values: ['https://etherscan.io/address/0xEB8D98f9E42a15b0Eb35315F737bdfDa1a8D2Eaa'],
-			label: 'Contract',
-			icon: <IconLinkOut />
-		}
-	];
-	function	onChangeRoute(selected: string): void {
-		router.push(selected);
-	}
 
 	return (
-		<>
-			<AppHead />
-			<div id={'app'} className={'grid flex-col grid-cols-12 gap-x-4 mx-auto mb-0 max-w-6xl md:flex-row'}>
-				<div className={'sticky top-0 z-50 col-span-12 h-auto md:relative md:col-span-2'}>
-					<div className={'flex flex-col justify-between h-full'}>
-						<Navbar
-							selected={router.pathname}
-							set_selected={onChangeRoute}
-							logo={<LogoYearn className={'w-full h-12 text-primary'} />}
-							options={navbarMenuOptions}
-							wrapper={<Link passHref href={''} />}>
-						</Navbar>
-					</div>
-				</div>
-				<div className={'flex flex-col col-span-12 px-4 w-full min-h-[100vh] md:col-span-10'}>
-					<Header
-						shouldUseNetworks={process.env.USE_NETWORKS}
-						shouldUseWallets={process.env.USE_WALLET}>
-						<HeaderTitle />
-					</Header>
-					<Component
-						key={router.route}
-						router={props.router}
-						{...pageProps} />
-					<Footer />
-				</div>
+		<div id={'app'} className={'mx-auto mb-0 flex max-w-6xl'}>
+			<div className={'flex min-h-[100vh] w-full flex-col'}>
+				<Header />
+				<AnimatePresence exitBeforeEnter>
+					<motion.div
+						key={router.asPath}
+						initial={'initial'}
+						animate={'enter'}
+						exit={'exit'}
+						className={'h-full'}
+						variants={variants}>
+						<div className={'mx-auto mt-20 mb-44 flex w-full max-w-6xl flex-col items-center justify-center'}>
+							<div className={'relative h-12 md:h-[104px]'}>
+								<TextAnimation />
+							</div>
+							<div className={'mt-8 mb-6'}>
+								<p className={'text-center text-lg md:text-2xl'}>{'Wherever you\'re coming from, we have a place for you'}</p>
+							</div>
+							<div>
+								<Button
+									as={'a'}
+									href={'#swap'}
+									className={'w-full'}>
+									{'Bridge to Yearn!'}
+								</Button>
+							</div>
+						</div>
+						<Component
+							router={props.router}
+							{...pageProps} />
+					</motion.div>
+				</AnimatePresence>
 			</div>
-		</>
+		</div>
 	);
 }
 
@@ -133,10 +88,13 @@ function	MyApp(props: AppProps): ReactElement {
 	return (
 		<WithYearn>
 			<YVempireContextApp>
-				<AppWrapper
-					Component={Component}
-					pageProps={pageProps}
-					router={props.router} />
+				<>
+					<Meta />
+					<WithLayout
+						Component={Component}
+						pageProps={pageProps}
+						router={props.router} />
+				</>
 			</YVempireContextApp>
 		</WithYearn>
 	);

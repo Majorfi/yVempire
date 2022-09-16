@@ -1,14 +1,14 @@
-import	React, {ReactElement}						from	'react';
-import	{ethers}									from	'ethers';
-import	{Card, SearchBox, Switch, AlertBanner}		from	'@yearn-finance/web-lib/components';
-import	* as utils									from	'@yearn-finance/web-lib/utils';
-import	{useWeb3}						from	'@yearn-finance/web-lib/contexts';
-import	{useBalances}						from	'@yearn-finance/web-lib/hooks';
-import	ADDRESSES							from	'config/constants';
-import	{findBySearch}								from	'utils/filters';
-import	useYVempire, {TPair}						from	'contexts/useYVempire';
-import	{TDeltaPossibilities}						from	'components/DeltaSelector';
-import	MigrateBox									from	'components/MigrateBox';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
+import {ethers} from 'ethers';
+import {AlertBanner, Card, SearchBox, Switch} from '@yearn-finance/web-lib/components';
+import * as utils from '@yearn-finance/web-lib/utils';
+import {useWeb3} from '@yearn-finance/web-lib/contexts';
+import {useBalances} from '@yearn-finance/web-lib/hooks';
+import ADDRESSES from 'config/constants';
+import {findBySearch} from 'utils/filters';
+import {TPair, useYVempire} from 'contexts/useYVempire';
+import {TDeltaPossibilities} from 'components/DeltaSelector';
+import MigrateBox from 'components/MigrateBox';
 
 function	Index(): ReactElement {
 	const	{chainID, provider} = useWeb3();
@@ -20,19 +20,19 @@ function	Index(): ReactElement {
 			return {token: tokenAddr};
 		})
 	});
-	const	basePairs = React.useRef(yVempireData);
-	const	[filteredPairData, set_filteredPairData] = React.useState<TPair[]>([]);
-	const	[searchTerm, set_searchTerm] = React.useState('');
-	const	[isOnlyWithBalance, set_isOnlyWithBalance] = React.useState(false);
-	const	[deltaSelector] = React.useState<TDeltaPossibilities>('minus');
-	const	[nonce, set_nonce] = React.useState(0); //used to trigger refresh
+	const	basePairs = useRef(yVempireData);
+	const	[filteredPairData, set_filteredPairData] = useState<TPair[]>([]);
+	const	[searchTerm, set_searchTerm] = useState('');
+	const	[isOnlyWithBalance, set_isOnlyWithBalance] = useState(false);
+	const	[deltaSelector] = useState<TDeltaPossibilities>('minus');
+	const	[nonce, set_nonce] = useState(0); //used to trigger refresh
 
 	/* 🔵 - Yearn Finance ******************************************************
 	** This effect update the current basePairs to use based on the currently
 	** selected chain.
 	** Supported chains are 1 & 250.
 	**************************************************************************/
-	React.useEffect((): void => {
+	useEffect((): void => {
 		if (chainID === 1) {
 			basePairs.current = yVempireData;
 		} else if (chainID === 250) {
@@ -45,7 +45,7 @@ function	Index(): ReactElement {
 	** changed, or the delta selector is updated. It filters the pairs based on
 	** that to only work with them.
 	**************************************************************************/
-	React.useEffect((): void => {
+	useEffect((): void => {
 		let		_filteredPairData = [...basePairs.current];
 
 		if (isOnlyWithBalance) {
@@ -79,24 +79,24 @@ function	Index(): ReactElement {
 					</div>
 				</AlertBanner>
 			</div>
-			<div className={'flex flex-col-reverse mb-5 space-x-0 md:flex-row md:space-x-4'}>
-				<div className={'flex flex-col mt-2 space-y-2 w-full md:mt-0'}>
+			<div className={'mb-5 flex flex-col-reverse space-x-0 md:flex-row md:space-x-4'}>
+				<div className={'mt-2 flex w-full flex-col space-y-2 md:mt-0'}>
 					<SearchBox
 						searchTerm={searchTerm}
 						onChange={set_searchTerm} />
 				</div>
-				<div className={'flex flex-row justify-between items-center space-x-2 md:justify-start md:space-x-4'}>
+				<div className={'flex flex-row items-center justify-between space-x-2 md:justify-start md:space-x-4'}>
 					<div>
 						<Card padding={'narrow'}>
 							<label className={'component--switchCard-wrapper'}>
-								<p className={'text-sm md:text-base text-typo-secondary'}>{'Only possible migrations'}</p>
+								<p className={'text-typo-secondary text-sm md:text-base'}>{'Only possible migrations'}</p>
 								<Switch isEnabled={isOnlyWithBalance} onSwitch={set_isOnlyWithBalance} />
 							</label>
 						</Card>
 					</div>
 				</div>
 			</div>
-			<div className={'flex flex-col space-y-4 w-full'}>
+			<div className={'flex w-full flex-col space-y-4'}>
 				<div className={'grid grid-cols-1 gap-4 md:grid-cols-3'}>
 					{
 						filteredPairData

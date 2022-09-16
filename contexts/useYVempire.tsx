@@ -1,14 +1,14 @@
-import	React, {ReactElement, useContext, createContext}	from	'react';
+import	React, {ReactElement, createContext, useCallback, useContext, useEffect, useRef, useState}	from	'react';
 import	axios												from	'axios';
 import	NProgress											from	'nprogress';
 import	{useWeb3}											from	'@yearn-finance/web-lib/contexts';
-import	{request, gql}										from	'graphql-request';
-import	{toAddress, providers, performBatchedUpdates}		from	'@yearn-finance/web-lib/utils';
+import	{gql, request}										from	'graphql-request';
+import	{performBatchedUpdates, providers, toAddress}		from	'@yearn-finance/web-lib/utils';
 import	AAVE_V1												from	'utils/yVempire/AaveV1';
 import	AAVE_V2												from	'utils/yVempire/AaveV2';
 import	AAVE_V2_FTM											from	'utils/yVempire/AaveV2Ftm';
 import	COMPOUND											from	'utils/yVempire/Compound';
-import	{rayPow, valueToZDBigNumber, normalize} 			from	'utils/rayMath';
+import	{normalize, rayPow, valueToZDBigNumber} 			from	'utils/rayMath';
 import	{UiPoolDataProvider}								from	'@aave/contract-helpers';
 
 const	PAIRS = [...COMPOUND, ...AAVE_V1, ...AAVE_V2];
@@ -53,14 +53,14 @@ type	TYVempireContext = {
 }
 const	YVempireContext = createContext<TYVempireContext>({yVempireData: PAIRS, yVempireDataFtm: PAIRS_FTM, nonce: 0});
 export const YVempireContextApp = ({children}: {children: ReactElement}): ReactElement => {
-	const	{chainID} = useWeb3();
-	const	[yVempireData, set_yVempireData] = React.useState(PAIRS);
-	const	[yVempireDataFtm, set_yVempireDataFtm] = React.useState(PAIRS_FTM);
-	const	[nonce, set_nonce] = React.useState(0);
-	const	getUTokenIsRunning = React.useRef(false);
-	const	getUTokenRunNonce = React.useRef(0);
+	const	{isActive, chainID} = useWeb3();
+	const	[yVempireData, set_yVempireData] = useState(PAIRS);
+	const	[yVempireDataFtm, set_yVempireDataFtm] = useState(PAIRS_FTM);
+	const	[nonce, set_nonce] = useState(0);
+	const	getUTokenIsRunning = useRef(false);
+	const	getUTokenRunNonce = useRef(0);
 
-	React.useEffect((): void => {
+	useEffect((): void => {
 		if (getUTokenIsRunning.current) {
 			getUTokenIsRunning.current = false;
 			getUTokenRunNonce.current = getUTokenRunNonce.current + 1;
@@ -82,7 +82,8 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		return data;
 	}
 
-	const getUTokenBalancesForChain1 = React.useCallback(async (shouldUseProgress: boolean): Promise<void> => {
+	const getUTokenBalancesForChain1 = useCallback(async (shouldUseProgress: boolean): Promise<void> => {
+		console.log('here');
 		if (getUTokenIsRunning.current)
 			return;
 		if (shouldUseProgress)
@@ -96,7 +97,6 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 			request('https://cache-api-mainnet.aave.com/graphql', AAVE_V1_QUERY),
 			request('https://api.thegraph.com/subgraphs/name/aave/protocol-v2', AAVE_V2_QUERY)
 		]);
-
 
 		const	_yVempireData = yVempireData;
 		for (const pair of _yVempireData) {
@@ -133,7 +133,9 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	}, [yVempireData, nonce]);
 
 
-	const getUTokenBalancesForChain250 = React.useCallback(async (shouldUseProgress: boolean): Promise<void> => {
+	// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
+	const getUTokenBalancesForChain250 = useCallback(async (shouldUseProgress: boolean): Promise<void> => {
+		return;
 		if (getUTokenIsRunning.current)
 			return;
 		if (shouldUseProgress)
@@ -170,17 +172,19 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		}
 	}, [yVempireDataFtm, nonce]);
 
-	const getUTokenBalancesForChain = React.useCallback(async (): Promise<void> => {
-		if ([0, 1, 1337].includes(chainID)) {
-			await getUTokenBalancesForChain1(true);
-			getUTokenBalancesForChain250(false);
-		} else if (chainID === 250) {
-			await getUTokenBalancesForChain250(true);
-			getUTokenBalancesForChain1(false);
+	const getUTokenBalancesForChain = useCallback(async (): Promise<void> => {
+		if (isActive) {
+			if ([0, 1, 1337].includes(chainID)) {
+				await getUTokenBalancesForChain1(true);
+			// getUTokenBalancesForChain250(false);´
+			} else if (chainID === 250) {
+			// await getUTokenBalancesForChain250(true);
+			// getUTokenBalancesForChain1(false);
+			}
 		}
-	}, [getUTokenBalancesForChain1, getUTokenBalancesForChain250, chainID]);
+	}, [isActive, chainID]);
 
-	React.useEffect((): void => {
+	useEffect((): void => {
 		getUTokenBalancesForChain();
 	}, [getUTokenBalancesForChain]);
 

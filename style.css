@@ -1,5 +1,5 @@
 /* This will load Tailwindcss + all the overwrite from Yearn lib */
-@import '@yearn-finance/web-lib/dist/style.css';
+@import '@yearn-finance/web-lib/dist/style.next.css';
 
 /* 🔵 - Yearn Finance ******************************************************
 ** Shorthand for some group of style used across the application
@@ -18,6 +18,51 @@
 .flex-row-start {@apply flex flex-row items-start;}
 .flex-col-start {@apply flex flex-col items-start;}
 .flex-col-full {@apply flex flex-col w-full h-full;}
+
+
+:root,
+:root body[data-theme="light"] {
+	--default-rounded: 0rem;
+	font-family: 'Aeonik', sans-serif;
+
+	& .yearn--searchBox-wrapper {
+		@apply border-neutral-200 border;
+	}
+	& .yearn--button {
+		@apply px-5 h-10;
+
+		&[data-variant="filled"] {
+			@apply text-neutral-0 bg-neutral-900 font-normal;
+			&:disabled {@apply bg-neutral-700 opacity-40;}
+			&:not(:disabled):not([aria-busy="true"]):hover {@apply bg-neutral-800;}
+		}
+	}
+
+	& .yearn--input {
+		@apply space-y-1;
+		& .yearn--input-field-wrapper {
+			@apply border border-neutral-600 p-2 text-base text-neutral-900 h-10;
+		}
+
+		& .yearn--input-field {
+			@apply text-base text-neutral-900 font-normal;
+		}
+	}
+
+	& .yearn--modal-overlay {
+		@apply bg-neutral-900/90;
+	}
+
+	& .yearn--card {
+		&[data-variant="background"] {@apply bg-neutral-100;}
+		&[data-padding="relaxed"] {@apply p-8;}
+	}
+
+}
+
+
+
+
 
 /* 🔵 - Yearn Finance ******************************************************
 ** Buyback specific
@@ -142,4 +187,33 @@
 	to {
 		opacity: 0;
 	}
+}
+
+.wordWrapper {
+	display: inline-block;
+	vertical-align: top;
+	margin: 0;
+}
+.word {
+	@apply absolute text-neutral-900 font-bold text-5xl md:text-8xl uppercase text-center flex justify-center items-center;
+	width: 600px;
+	opacity: 0;
+}
+.letter {
+	display: inline-block;
+	position: relative;
+	float: left;
+	transform: translateZ(25px);
+	transform-origin: 50% 50% 25px;
+}
+.letter.out {
+	transform: rotateX(90deg);
+	transition: transform 0.32s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+.letter.behind {
+	transform: rotateX(-90deg);
+}
+.letter.in {
+	transform: rotateX(0deg);
+	transition: transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

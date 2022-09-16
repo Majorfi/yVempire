@@ -21,7 +21,7 @@ function	DeltaSelector({selectedLevel, onSelect}: TDeltaSelector): ReactElement 
 			<div
 				onClick={(): void => onSelect('minus')}
 				className={`component--deltaSelector-base ${selectedLevel === 'minus' ? minusClassName : defaultClassName}`}>
-				<p className={'text-xl font-bold text-alert-critical-primary'}>{'-'}</p>
+				<p className={'text-alert-critical-primary text-xl font-bold'}>{'-'}</p>
 			</div>
 		</div>
 	);

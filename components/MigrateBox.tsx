@@ -1,17 +1,17 @@
-import	React, {ReactElement}								from	'react';
-import	{ethers}											from	'ethers';
-import	Image												from	'next/image';
-import	{Card, Button}										from	'@yearn-finance/web-lib/components';
-import	* as utils											from	'@yearn-finance/web-lib/utils';
-import	{useUI, useWeb3}									from	'@yearn-finance/web-lib/contexts';
-import	{LinkOut}											from	'@yearn-finance/web-lib/icons';
-import	{TPair}												from	'contexts/useYVempire';
-import	{checkAllowance, approveToken, migrateBachTokens}	from	'utils/actions';
+import React, {ReactElement, useState} from 'react';
+import {ethers} from 'ethers';
+import Image from 'next/image';
+import {Button} from '@yearn-finance/web-lib/components';
+import * as utils from '@yearn-finance/web-lib/utils';
+import {useUI, useWeb3} from '@yearn-finance/web-lib/contexts';
+import {LinkOut} from '@yearn-finance/web-lib/icons';
+import {TPair} from 'contexts/useYVempire';
+import {approveToken, checkAllowance, migrateBachTokens} from 'utils/actions';
 
 function PendingLoader(): ReactElement {
 	return (
-		<div className={'flex absolute inset-0 justify-center items-center'}>
-			<svg className={'animate-spin text-button-filled-text'} width={24} height={24} xmlns={'http://www.w3.org/2000/svg'} fill={'none'} viewBox={'0 0 24 24'}>
+		<div className={'absolute inset-0 flex items-center justify-center'}>
+			<svg className={'text-button-filled-text animate-spin'} width={24} height={24} xmlns={'http://www.w3.org/2000/svg'} fill={'none'} viewBox={'0 0 24 24'}>
 				<circle className={'opacity-25'} cx={'12'} cy={'12'} r={'10'} stroke={'currentColor'} strokeWidth={'4'}></circle>
 				<path className={'opacity-100'} fill={'currentColor'} d={'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'}></path>
 			</svg>
@@ -30,7 +30,7 @@ type	TMigrateBox = {
 function	MigrateBox({pair, balance, rawBalance, onForceRerender}: TMigrateBox): ReactElement {
 	const	{toast} = useUI();
 	const	{provider} = useWeb3();
-	const	[txStatus, set_txStatus] = React.useState({none: true, pending: false, success: false, error: false});
+	const	[txStatus, set_txStatus] = useState({none: true, pending: false, success: false, error: false});
 
 	let		deltaClassName = 'text-[#22c55e]';
 	const	delta = pair.yvToken.apy - pair.uToken.apy;
@@ -92,38 +92,38 @@ function	MigrateBox({pair, balance, rawBalance, onForceRerender}: TMigrateBox): 
 	}
 
 	return (
-		<Card className={'flex flex-col px-4'}>
-			<div className={'flex flex-row justify-between items-center pb-4 w-full'}>
+		<div className={'flex flex-col bg-neutral-100 p-6'}>
+			<div className={'flex w-full flex-row items-center justify-between pb-4'}>
 				<h3 className={'text-base font-bold'}>
 					{pair.underlyingName}
 				</h3>
 				<a href={`https://etherscan.io/token/${pair.underlyingAddress}`} target={'_blank'} rel={'noreferrer'}>
 					<LinkOut
-						className={'w-4 h-4 transition-colors cursor-pointer text-icons-primary hover:text-icons-variant'}/>
+						className={'text-icons-primary hover:text-icons-variant h-4 w-4 cursor-pointer transition-colors'}/>
 				</a>
 			</div>
-			<div className={'grid grid-cols-12 gap-x-4 w-full'}>
-				<div className={'flex flex-col col-span-4'}>
-					<div className={'aspect-square flex justify-center items-center rounded-lg bg-background'}>
-						<Image width={40} height={40} src={pair.image} />
+			<div className={'grid w-full grid-cols-12 gap-x-4'}>
+				<div className={'col-span-4 flex flex-col'}>
+					<div className={'bg-background flex aspect-square items-center justify-center rounded-lg'}>
+						<Image alt={''} width={40} height={40} src={pair.image} />
 					</div>
 				</div>
 				<div className={'col-span-8'}>
-					<div className={'flex flex-row justify-between items-center'}>
+					<div className={'flex flex-row items-center justify-between'}>
 						<div className={'text-sm'}>{'APY'}</div>
-						<div className={'text-base font-bold tabular-nums text-light-primary'}>
+						<div className={'text-light-primary text-base font-bold tabular-nums'}>
 							{`${utils.format.amount(pair.yvToken.apy)}%`}
 						</div>
 					</div>
-					<div className={'flex flex-row justify-between items-center'}>
+					<div className={'flex flex-row items-center justify-between'}>
 						<div className={'text-sm'}>{'Delta'}</div>
 						<div className={`text-base font-bold tabular-nums ${deltaClassName}`}>{
 							delta > 0 ? ` + ${utils.format.amount(delta)}%` : `${utils.format.amount(delta)} %`
 						}</div>
 					</div>
-					<div className={'flex flex-row justify-between items-center'}>
+					<div className={'flex flex-row items-center justify-between'}>
 						<div className={'text-sm'}>{'Balance'}</div>
-						<div className={'text-base font-bold tabular-nums text-right'}>{`${utils.format.amount(balance || 0)}`}</div>
+						<div className={'text-right text-base font-bold tabular-nums'}>{`${utils.format.amount(balance || 0)}`}</div>
 					</div>
 				</div>
 			</div>
@@ -140,14 +140,14 @@ function	MigrateBox({pair, balance, rawBalance, onForceRerender}: TMigrateBox): 
 					onClick={onApproveTx}
 					disabled={rawBalance.eq(ethers.BigNumber.from(0))}
 					variant={'filled'}
-					className={`w-full relative ${txStatus.pending ? 'text-primary/0' : ''}`}>
+					className={`relative w-full ${txStatus.pending ? 'text-primary/0' : ''}`}>
 					<>
 						{txStatus.pending ? <PendingLoader /> : null}
 						{pair.service === 0 ? 'Migrate from Compound' : pair.service === 1 ? 'Migrate from Aave V1' : 'Migrate from Aave V2'}
 					</>
 				</Button>
 			</div>
-		</Card>
+		</div>
 	);
 }
 
