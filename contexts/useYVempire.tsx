@@ -133,9 +133,7 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	}, [yVempireData, nonce]);
 
 
-	// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
 	const getUTokenBalancesForChain250 = useCallback(async (shouldUseProgress: boolean): Promise<void> => {
-		return;
 		if (getUTokenIsRunning.current)
 			return;
 		if (shouldUseProgress)
@@ -176,10 +174,10 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 		if (isActive) {
 			if ([0, 1, 1337].includes(chainID)) {
 				await getUTokenBalancesForChain1(true);
-			// getUTokenBalancesForChain250(false);´
+				// getUTokenBalancesForChain250(false);´
 			} else if (chainID === 250) {
-			// await getUTokenBalancesForChain250(true);
-			// getUTokenBalancesForChain1(false);
+				await getUTokenBalancesForChain250(true);
+				// getUTokenBalancesForChain1(false);
 			}
 		}
 	}, [isActive, chainID]);
