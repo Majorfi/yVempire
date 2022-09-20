@@ -2,7 +2,7 @@
 	"name": "yVempire",
 	"short_name": "yVempire",
 	"description": "Bridge to the best yields in DeFi.",
-	"iconPath": "./favicons/apple-icon.png",
+	"iconPath": "./favicons/favicon.svg",
 	"locale": "en-US",
 	"uri": "https://vempire.ycorpo.com/",
 	"og": "https://vempire.ycorpo.com/og.png",

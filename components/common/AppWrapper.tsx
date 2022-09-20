@@ -20,7 +20,6 @@ function	WithLayout(props: AppProps): ReactElement {
 		}
 	}
 
-
 	return (
 		<React.Fragment>
 			<Header />

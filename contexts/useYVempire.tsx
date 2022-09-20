@@ -83,7 +83,6 @@ export const YVempireContextApp = ({children}: {children: ReactElement}): ReactE
 	}
 
 	const getUTokenBalancesForChain1 = useCallback(async (shouldUseProgress: boolean): Promise<void> => {
-		console.log('here');
 		if (getUTokenIsRunning.current)
 			return;
 		if (shouldUseProgress)

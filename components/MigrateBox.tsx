@@ -22,7 +22,7 @@ function PendingLoader(): ReactElement {
 // type 	TListTokens = [address: string, decimals: number]
 type	TMigrateBox = {
 	pair: TPair,
-	balance: string,
+	balance: number,
 	rawBalance: ethers.BigNumber,
 	// retrieveBalances: (tokensForChain: TListTokens[]) => void,
 	onForceRerender: () => void
