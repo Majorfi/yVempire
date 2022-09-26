@@ -1,4 +1,3 @@
-/* This will load Tailwindcss + all the overwrite from Yearn lib */
 @import '@yearn-finance/web-lib/dist/style.next.css';
 
 /* 🔵 - Yearn Finance ******************************************************
