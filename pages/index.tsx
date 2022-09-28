@@ -21,7 +21,6 @@ function	Index(): ReactElement {
 		})
 	});
 	const	bla = useBalance();
-	console.log(bla);
 	const ethBalancesOf = bla.data;
 	// 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2
 
@@ -106,24 +105,21 @@ function	Index(): ReactElement {
 							.map((pair: TPair, index: number): ReactElement => {
 								// pair.underlyingAddress
 								if (pair.underlyingAddress === toAddress('0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2')) {
-									console.log(ethBalancesOf);
 									return (
-										<>
+										<div key={`${pair.underlyingAddress}_${index}`}>
 											<MigrateBox
-												key={`eth_${index}`}
 												pair={pair}
 												// retrieveBalances={retrieveBalances}
 												onForceRerender={(): void => set_nonce(nonce + 1)}
 												balance={ethBalancesOf?.normalized || '0'}
 												rawBalance={ethBalancesOf?.raw || ethers.BigNumber.from(0)} />
 											<MigrateBox
-												key={`${pair.underlyingAddress}_${index}`}
 												pair={pair}
 												// retrieveBalances={retrieveBalances}
 												onForceRerender={(): void => set_nonce(nonce + 1)}
 												balance={balancesOf?.[pair.uToken.address]?.normalized || '0'}
 												rawBalance={balancesOf?.[pair.uToken.address]?.raw || ethers.BigNumber.from(0)} />
-										</>
+										</div>
 									);
 								}
 								return (<MigrateBox
