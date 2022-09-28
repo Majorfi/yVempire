@@ -13,7 +13,7 @@
   "dependencies": {
     "@aave/contract-helpers": "^1.7.0",
     "@aave/protocol-js": "^4.3.0",
-    "@yearn-finance/web-lib": "^0.13.22",
+    "@yearn-finance/web-lib": "^0.13.27",
     "axios": "^0.27.2",
     "bignumber.js": "^9.1.0",
     "ethcall": "^4.8.2",
